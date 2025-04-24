@@ -58,12 +58,12 @@ bun run dev
 ## Next Tasks
 
 [ ] Add tests;
-[ ] Deploy + CI/CD;
 [ ] Abstract logic of gameboard to the lib;
 [ ] General layout improvement for the blocks;
-[ ] Numbers with colors, like the original game;
 [ ] Add animations for revealing cells and explosions;
 [ ] Add a game timer and high score system;
 [ ] Consider adding a dark mode theme;
 [ ] Include a difficulty preset selector (Beginner, Intermediate, Expert)
 [ ] Right click to "save" a known mine space;
+[ ] Add instructions
+[ ] Option to display the mines when losing the game

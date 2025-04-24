@@ -17,7 +17,7 @@ export const Homepage = ({ startNewGame }: NewGameProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-50 py-20">
+    <div className="flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold text-center mb-6">New Challenge</h2>
         <div className="grid grid-cols-2 gap-4">

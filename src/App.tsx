@@ -31,21 +31,25 @@ function App() {
     <>
       <Header leaderboard={gameController.leaderboard} />
 
-      {gameController.gameStatus === "new" ? (
-        <Homepage startNewGame={startNewGame} />
-      ) : (
-        <GameBoard
-          gameStatus={gameController.gameStatus}
-          gameboard={gameController.gameboard}
-          boardRules={gameController.boardRules}
-          setGameStatus={(status) => setGameController((prev) => ({ ...prev, gameStatus: status }))}
-          setGameboard={(board) => setGameController((prev) => ({ ...prev, gameboard: board }))}
-          setLeaderboard={(leaderboard) =>
-            setGameController((prev) => ({ ...prev, leaderboard: leaderboard }))
-          }
-          leaderboard={gameController.leaderboard}
-        />
-      )}
+      <div className="container mx-auto py-20 bg-gray-50">
+        {gameController.gameStatus === "new" ? (
+          <Homepage startNewGame={startNewGame} />
+        ) : (
+          <GameBoard
+            gameStatus={gameController.gameStatus}
+            gameboard={gameController.gameboard}
+            boardRules={gameController.boardRules}
+            setGameStatus={(status) =>
+              setGameController((prev) => ({ ...prev, gameStatus: status }))
+            }
+            setGameboard={(board) => setGameController((prev) => ({ ...prev, gameboard: board }))}
+            setLeaderboard={(leaderboard) =>
+              setGameController((prev) => ({ ...prev, leaderboard: leaderboard }))
+            }
+            leaderboard={gameController.leaderboard}
+          />
+        )}
+      </div>
     </>
   );
 }

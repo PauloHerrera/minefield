@@ -3,6 +3,7 @@ import { GiMineExplosion } from "react-icons/gi";
 import { boardItem, gameLeaderboard } from "../lib/game-controller";
 import { Button } from "./button";
 import { ImEvil, ImSmile } from "react-icons/im";
+import { MineNumber } from "./mine-number";
 interface GameBoardProps {
   gameStatus: "new" | "playing" | "gameOver" | "gameWon";
   setGameStatus: (status: "new" | "playing" | "gameOver" | "gameWon") => void;
@@ -39,6 +40,7 @@ export const GameBoard = ({
     if (gameboard[row][col].item === "mine") {
       setGameStatus("gameOver");
       setLeaderboard({ ...leaderboard, defeats: leaderboard.defeats + 1 });
+      return;
     }
 
     const moves = gameboard.reduce(
@@ -53,7 +55,7 @@ export const GameBoard = ({
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
       <div className="my-8">
         {(gameStatus === "gameOver" || gameStatus === "gameWon") && (
           <div
@@ -73,7 +75,7 @@ export const GameBoard = ({
               )}
             </div>
             <div className="text-gray-600">
-              Moves until loss:{" "}
+              Total moves:{" "}
               {gameboard.reduce((acc, row) => acc + row.filter((cell) => cell.revealed).length, 0)}
             </div>
             <div className="mt-4 w-32 mx-auto">
@@ -88,7 +90,8 @@ export const GameBoard = ({
           <div className="flex flex-col gap-2" key={`container-${rowIndex}`}>
             {row.map((cell, cellIndex) => (
               <div
-                className="w-10 h-10 bg-stone-300 flex items-center justify-center text-stone-600 cursor-pointer"
+                className="w-16 h-16 bg-stone-300 flex items-center justify-center text-stone-600
+                p-4 cursor-pointer rounded-md"
                 onClick={() => {
                   handleClick(rowIndex, cellIndex);
                 }}
@@ -96,14 +99,14 @@ export const GameBoard = ({
               >
                 {cell.revealed ? (
                   cell.item === "mine" ? (
-                    <GiMineExplosion className="text-red-500" />
+                    <GiMineExplosion className="text-red-500 w-10 h-10" />
                   ) : cell.item === "number" ? (
-                    cell.value
+                    <MineNumber>{cell.value}</MineNumber>
                   ) : (
                     ""
                   )
                 ) : (
-                  <BsPatchQuestionFill />
+                  <BsPatchQuestionFill className="w-10 h-10" />
                 )}
               </div>
             ))}
