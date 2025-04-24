@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+build/
+dist/
+
+# Compiled files
+*.map
+
+# Logs and temp files
+*.log
+tmp/
+temp/
+
+# Environment variables
+.env
+.env.local
