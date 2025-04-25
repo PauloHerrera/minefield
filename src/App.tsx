@@ -4,6 +4,7 @@ import { gameController, generateBoard } from "./lib/game-controller";
 import { Homepage } from "./components/homepage";
 import { GameBoard } from "./components/game-board";
 import { Header } from "./components/header";
+import Instructions from "./components/instructions";
 
 function App() {
   const [gameController, setGameController] = useState<gameController>({
@@ -33,7 +34,10 @@ function App() {
 
       <div className="container mx-auto py-20 bg-gray-50">
         {gameController.gameStatus === "new" ? (
-          <Homepage startNewGame={startNewGame} />
+          <>
+            <Homepage startNewGame={startNewGame} />
+            <Instructions />
+          </>
         ) : (
           <GameBoard
             gameStatus={gameController.gameStatus}

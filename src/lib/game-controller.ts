@@ -1,7 +1,7 @@
 export type boardItem = {
   item: "mine" | "number" | "empty";
   value: number;
-  revealed: boolean;
+  status: "hidden" | "flagged" | "revealed";
 };
 
 type boardRules = {
@@ -30,7 +30,7 @@ export const generateBoard = ({ mines, rows, cols }: boardRules): boardItem[][] 
         ({
           item: "empty",
           value: 0,
-          revealed: false,
+          status: "hidden",
         }) as boardItem
     )
   );
@@ -42,7 +42,7 @@ export const generateBoard = ({ mines, rows, cols }: boardRules): boardItem[][] 
     board[row][col] = {
       item: "mine",
       value: 0,
-      revealed: false,
+      status: "hidden",
     };
   }
 
@@ -60,7 +60,7 @@ export const generateBoard = ({ mines, rows, cols }: boardRules): boardItem[][] 
                 board[newRow][newCol] = {
                   item: "number",
                   value: board[newRow][newCol].value + 1,
-                  revealed: false,
+                  status: "hidden",
                 };
               }
             }

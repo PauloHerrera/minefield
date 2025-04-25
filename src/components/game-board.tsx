@@ -4,6 +4,7 @@ import { boardItem, gameLeaderboard } from "../lib/game-controller";
 import { Button } from "./button";
 import { ImEvil, ImSmile } from "react-icons/im";
 import { MineNumber } from "./mine-number";
+import { FaFlagCheckered } from "react-icons/fa";
 interface GameBoardProps {
   gameStatus: "new" | "playing" | "gameOver" | "gameWon";
   setGameStatus: (status: "new" | "playing" | "gameOver" | "gameWon") => void;
@@ -34,7 +35,7 @@ export const GameBoard = ({
     //Changes the reviewed state of the cell
     const newBoard = [...gameboard];
     newBoard[row] = [...gameboard[row]];
-    newBoard[row][col] = { ...gameboard[row][col], revealed: true };
+    newBoard[row][col] = { ...gameboard[row][col], status: "revealed" };
     setGameboard(newBoard);
 
     if (gameboard[row][col].item === "mine") {
@@ -44,7 +45,7 @@ export const GameBoard = ({
     }
 
     const moves = gameboard.reduce(
-      (acc, row) => acc + row.filter((cell) => cell.revealed).length,
+      (acc, row) => acc + row.filter((cell) => cell.status === "revealed").length,
       0
     );
 
@@ -52,6 +53,22 @@ export const GameBoard = ({
       setGameStatus("gameWon");
       setLeaderboard({ ...leaderboard, victories: leaderboard.victories + 1 });
     }
+  };
+
+  const handleRightClick = (row: number, col: number) => {
+    if (gameStatus === "gameOver" || gameStatus === "gameWon") return;
+
+    const newBoard = [...gameboard];
+    newBoard[row] = [...gameboard[row]];
+
+    if (newBoard[row][col].status === "revealed") return;
+
+    if (newBoard[row][col].status === "hidden") {
+      newBoard[row][col] = { ...gameboard[row][col], status: "flagged" };
+    } else {
+      newBoard[row][col] = { ...gameboard[row][col], status: "hidden" };
+    }
+    setGameboard(newBoard);
   };
 
   return (
@@ -76,7 +93,10 @@ export const GameBoard = ({
             </div>
             <div className="text-gray-600">
               Total moves:{" "}
-              {gameboard.reduce((acc, row) => acc + row.filter((cell) => cell.revealed).length, 0)}
+              {gameboard.reduce(
+                (acc, row) => acc + row.filter((cell) => cell.status === "revealed").length,
+                0
+              )}
             </div>
             <div className="mt-4 w-32 mx-auto">
               <Button onClick={() => setGameStatus("new")}>New Game</Button>
@@ -95,9 +115,13 @@ export const GameBoard = ({
                 onClick={() => {
                   handleClick(rowIndex, cellIndex);
                 }}
+                onContextMenu={(e) => {
+                  e.preventDefault();
+                  handleRightClick(rowIndex, cellIndex);
+                }}
                 key={`${rowIndex}-${cellIndex}`}
               >
-                {cell.revealed ? (
+                {cell.status === "revealed" ? (
                   cell.item === "mine" ? (
                     <GiMineExplosion className="text-red-500 w-10 h-10" />
                   ) : cell.item === "number" ? (
@@ -105,6 +129,8 @@ export const GameBoard = ({
                   ) : (
                     ""
                   )
+                ) : cell.status === "flagged" ? (
+                  <FaFlagCheckered className="w-10 h-10" />
                 ) : (
                   <BsPatchQuestionFill className="w-10 h-10" />
                 )}
