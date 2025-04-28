@@ -5,6 +5,7 @@ import { Button } from "./button";
 import { ImEvil, ImSmile } from "react-icons/im";
 import { MineNumber } from "./mine-number";
 import { FaFlagCheckered } from "react-icons/fa";
+import { CellContainer } from "./cell-container";
 interface GameBoardProps {
   gameStatus: "new" | "playing" | "gameOver" | "gameWon";
   setGameStatus: (status: "new" | "playing" | "gameOver" | "gameWon") => void;
@@ -72,14 +73,15 @@ export const GameBoard = ({
   };
 
   return (
-    <div className="container mx-auto px-4">
-      <div className="my-8">
+    <div className="container mx-auto px-2 sm:px-4">
+      <div className="my-4 sm:my-6">
         {(gameStatus === "gameOver" || gameStatus === "gameWon") && (
           <div
-            className={`p-4 mb-4 rounded-lg border-2 ${gameStatus === "gameOver" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}
+            className={`p-3 mb-4 rounded-lg border-2 ${gameStatus === "gameOver" ? "border-red-500 bg-red-50" : "border-green-500 bg-green-50"}`}
           >
             <div
-              className={`flex justify-center items-center gap-2 text-2xl font-bold mb-2 ${gameStatus === "gameOver" ? "text-red-500" : "text-green-500"}`}
+              className={`flex justify-center items-center gap-2 text-lg sm:text-2xl font-bold mb-2 
+                ${gameStatus === "gameOver" ? "text-red-500" : "text-green-500"}`}
             >
               {gameStatus === "gameOver" ? (
                 <>
@@ -105,13 +107,14 @@ export const GameBoard = ({
         )}
       </div>
 
-      <div className="flex justify-center space-x-8 my-8">
+      <div className="flex flex-col sm:flex-row justify-center sm:space-x-2 md:space-x-4 lg:space-x-8 my-4 sm:my-8">
         {gameboard.map((row, rowIndex) => (
-          <div className="flex flex-col gap-2" key={`container-${rowIndex}`}>
+          <div
+            className="flex flex-row sm:flex-col gap-2 sm:gap-2 md:gap-3 justify-center mb-2 sm:mb-0"
+            key={`container-${rowIndex}`}
+          >
             {row.map((cell, cellIndex) => (
-              <div
-                className="w-16 h-16 bg-stone-300 flex items-center justify-center text-stone-600
-                p-4 cursor-pointer rounded-md"
+              <CellContainer
                 onClick={() => {
                   handleClick(rowIndex, cellIndex);
                 }}
@@ -123,18 +126,18 @@ export const GameBoard = ({
               >
                 {cell.status === "revealed" ? (
                   cell.item === "mine" ? (
-                    <GiMineExplosion className="text-red-500 w-10 h-10" />
+                    <GiMineExplosion className="text-red-500 w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
                   ) : cell.item === "number" ? (
                     <MineNumber>{cell.value}</MineNumber>
                   ) : (
                     ""
                   )
                 ) : cell.status === "flagged" ? (
-                  <FaFlagCheckered className="w-10 h-10" />
+                  <FaFlagCheckered className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
                 ) : (
-                  <BsPatchQuestionFill className="w-10 h-10" />
+                  <BsPatchQuestionFill className="w-6 h-6 sm:w-8 sm:h-8 lg:w-10 lg:h-10" />
                 )}
-              </div>
+              </CellContainer>
             ))}
           </div>
         ))}
